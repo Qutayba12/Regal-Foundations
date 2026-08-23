@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { CrownMark } from "./Logo";
+import { Emblem } from "./Logo";
 import { site } from "@/lib/site";
 
 const Hero3D = dynamic(() => import("./Hero3D"), {
@@ -14,12 +14,7 @@ const Hero3D = dynamic(() => import("./Hero3D"), {
 function EmblemFallback() {
   return (
     <div className="absolute inset-0 grid place-items-center">
-      <div className="animate-float-slow text-center">
-        <CrownMark className="mx-auto h-16 w-28" />
-        <span className="mt-2 block font-display text-8xl text-silver-gradient">
-          R
-        </span>
-      </div>
+      <Emblem className="h-56 w-auto animate-float-slow sm:h-72" />
     </div>
   );
 }
