@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Anton", "Impact", sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink text-cream font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    @apply bg-gold/30 text-cream;
+  }
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0b0b0d;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #22242c;
+    border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #C9A24B;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8;
+  }
+
+  /* Gold gradient text */
+  .text-gold-gradient {
+    @apply bg-gold-sheen bg-clip-text text-transparent;
+  }
+  .text-silver-gradient {
+    @apply bg-silver-sheen bg-clip-text text-transparent;
+  }
+
+  /* Primary CTA button */
+  .btn-gold {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-full
+      bg-gold-sheen px-7 py-3.5 text-sm font-semibold uppercase tracking-wider
+      text-ink shadow-gold transition-all duration-300
+      hover:-translate-y-0.5 hover:shadow-[0_16px_50px_-12px_rgba(201,162,75,0.7)]
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ink;
+  }
+
+  /* Ghost / outline button */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border
+      border-silver/25 px-7 py-3.5 text-sm font-semibold uppercase tracking-wider
+      text-cream transition-all duration-300 hover:border-gold hover:text-gold;
+  }
+
+  /* Section eyebrow label */
+  .eyebrow {
+    @apply mb-4 inline-flex items-center gap-2 text-xs font-semibold uppercase
+      tracking-[0.25em] text-gold;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply h-px w-8 bg-gold/60;
+  }
+
+  .display-title {
+    @apply font-display uppercase leading-[0.95] tracking-tight;
+  }
+
+  .card-surface {
+    @apply rounded-2xl border border-ink-line bg-ink-card/80 backdrop-blur;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-ink-line to-transparent;
+  }
+}
