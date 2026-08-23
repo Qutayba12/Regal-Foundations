@@ -1,28 +1,23 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Emblem } from "./Logo";
 import { site } from "@/lib/site";
 
-const Hero3D = dynamic(() => import("./Hero3D"), {
-  ssr: false,
-  loading: () => <EmblemFallback />,
-});
-
-function EmblemFallback() {
-  return (
-    <div className="absolute inset-0 grid place-items-center">
-      <Emblem className="h-56 w-auto animate-float-slow sm:h-72" />
-    </div>
-  );
-}
-
 const tagParts = site.tagline.split("·").map((s) => s.trim());
 
 export default function Hero() {
   const reduce = useReducedMotion();
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  function handleMove(e: React.MouseEvent<HTMLDivElement>) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    setTilt({ x: -py * 16, y: px * 16 });
+  }
 
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden pt-20">
@@ -95,10 +90,30 @@ export default function Hero() {
           </motion.ul>
         </div>
 
-        {/* 3D emblem */}
-        <div className="relative mx-auto aspect-square w-full max-w-[460px] lg:max-w-none">
-          <Hero3D />
-        </div>
+        {/* Real emblem — floating, glowing, tilts with the cursor */}
+        <motion.div
+          initial={reduce ? false : { opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.15 }}
+          className="relative mx-auto flex aspect-square w-full max-w-[460px] items-center justify-center lg:max-w-none"
+          style={{ perspective: "900px" }}
+          onMouseMove={reduce ? undefined : handleMove}
+          onMouseLeave={() => setTilt({ x: 0, y: 0 })}
+        >
+          {/* glows */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[72%] w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/15 blur-[90px]" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[44%] w-[44%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-silver/10 blur-[70px]" />
+
+          <div className="animate-float-slow">
+            <motion.div
+              animate={{ rotateX: tilt.x, rotateY: tilt.y }}
+              transition={{ type: "spring", stiffness: 120, damping: 12 }}
+              style={{ transformStyle: "preserve-3d" }}
+            >
+              <Emblem className="w-64 drop-shadow-[0_24px_50px_rgba(0,0,0,0.65)] sm:w-80 lg:w-[360px]" />
+            </motion.div>
+          </div>
+        </motion.div>
       </div>
 
       {/* Scroll cue */}
