@@ -85,3 +85,21 @@
     @apply h-px w-full bg-gradient-to-r from-transparent via-ink-line to-transparent;
   }
 }
+
+/* Cinematic slow zoom/pan for the hero background (all screens) */
+@keyframes kenburns {
+  0% {
+    transform: scale(1.06) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(1.16) translate3d(-2%, -1.5%, 0);
+  }
+}
+.animate-kenburns {
+  animation: kenburns 26s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-kenburns {
+    animation: none;
+  }
+}
