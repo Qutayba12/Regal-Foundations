@@ -5,7 +5,7 @@ export function Emblem({ className = "" }: { className?: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/logo-emblem.svg?v=2"
+      src="/logo-emblem.png?v=3"
       alt={`${site.name} emblem`}
       className={className}
       draggable={false}
