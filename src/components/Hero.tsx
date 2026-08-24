@@ -129,7 +129,7 @@ export default function Hero() {
           initial={reduce ? false : { opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.15 }}
-          className="hidden lg:block"
+          className="flex justify-center lg:block"
         >
           <LogoStage />
         </motion.div>
