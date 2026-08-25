@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SceneBackground from "./SceneBackground";
 
 export default function PageHeader({
   eyebrow,
@@ -14,10 +15,9 @@ export default function PageHeader({
   breadcrumb?: string;
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-ink-line pt-32 pb-16">
-      <div className="absolute inset-0 bg-hero-grid bg-[size:44px_44px] opacity-70" />
-      <div className="absolute -right-32 -top-20 h-[380px] w-[380px] rounded-full bg-gold/10 blur-[120px]" />
-      <div className="container-x relative">
+    <section className="relative flex min-h-[46vh] items-end overflow-hidden border-b border-ink-line pt-32 pb-14">
+      <SceneBackground />
+      <div className="container-x relative z-10">
         <nav className="mb-6 flex items-center gap-2 text-xs uppercase tracking-wider text-silver-muted">
           <Link href="/" className="hover:text-gold">
             Home
@@ -26,11 +26,11 @@ export default function PageHeader({
           <span className="text-gold">{breadcrumb ?? title}</span>
         </nav>
         {eyebrow && <span className="eyebrow">{eyebrow}</span>}
-        <h1 className="display-title text-5xl text-cream sm:text-6xl">
+        <h1 className="display-title text-5xl text-cream drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-6xl">
           {title} {highlight && <span className="text-gold-gradient">{highlight}</span>}
         </h1>
         {subtitle && (
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-silver">
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-silver drop-shadow-[0_1px_12px_rgba(0,0,0,0.7)]">
             {subtitle}
           </p>
         )}

@@ -1,65 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import LogoStage from "./LogoStage";
+import SceneBackground from "./SceneBackground";
 import { site } from "@/lib/site";
 
 const tagParts = site.tagline.split("·").map((s) => s.trim());
 
 export default function Hero() {
   const reduce = useReducedMotion();
-  const [off, setOff] = useState({ x: 0, y: 0 });
-
-  function onMove(e: React.MouseEvent<HTMLElement>) {
-    if (reduce) return;
-    const x = e.clientX / window.innerWidth - 0.5;
-    const y = e.clientY / window.innerHeight - 0.5;
-    setOff({ x: x * -26, y: y * -18 });
-  }
-
-  // Gentle device-tilt parallax on touch devices (interactive on all screens).
-  useEffect(() => {
-    if (reduce || typeof window === "undefined") return;
-    const onTilt = (e: DeviceOrientationEvent) => {
-      const g = e.gamma ?? 0; // left-right
-      const b = e.beta ?? 0; // front-back
-      setOff({
-        x: Math.max(-26, Math.min(26, (g / 45) * -26)),
-        y: Math.max(-18, Math.min(18, ((b - 45) / 45) * -18)),
-      });
-    };
-    window.addEventListener("deviceorientation", onTilt);
-    return () => window.removeEventListener("deviceorientation", onTilt);
-  }, [reduce]);
 
   return (
-    <section
-      onMouseMove={onMove}
-      className="relative flex min-h-screen items-center overflow-hidden pt-20"
-    >
-      {/* Cinematic villa background — fills the whole banner */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div
-          className="absolute inset-[-8%] transition-transform duration-300 ease-out"
-          style={{ transform: `translate3d(${off.x}px, ${off.y}px, 0)` }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/hero-villa.jpg"
-            alt="Modern luxury home at dusk"
-            className="h-full w-full animate-kenburns object-cover"
-            fetchPriority="high"
-          />
-        </div>
-      </div>
-
-      {/* Legibility overlays */}
-      <div className="pointer-events-none absolute inset-0 bg-ink/45" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-ink from-5% via-ink/60 via-45% to-ink/10" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-ink/90 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-ink to-transparent" />
+    <section className="relative flex min-h-screen items-center overflow-hidden pt-20">
+      <SceneBackground priority />
 
       <div className="container-x relative z-10 grid items-center gap-10 py-16 lg:grid-cols-2">
         {/* Copy */}

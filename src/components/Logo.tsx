@@ -1,6 +1,7 @@
+import LogoStage from "./LogoStage";
 import { site } from "@/lib/site";
 
-/** The real Regal Foundations emblem (crown + R), served from /public. */
+/** Static emblem image (used where interactivity isn't wanted). */
 export function Emblem({ className = "" }: { className?: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -22,7 +23,14 @@ export default function Logo({
 }) {
   return (
     <span className={`flex items-center gap-3 ${className}`}>
-      <Emblem className="h-12 w-auto" />
+      {/* Same interactive metallic emblem as the hero, compact */}
+      <LogoStage
+        className="w-10 shrink-0"
+        tiltMax={10}
+        glow={false}
+        float={false}
+        depth={false}
+      />
       {withText && (
         <span className="flex flex-col leading-none">
           <span className="font-display text-lg tracking-[0.15em] text-silver-gradient">

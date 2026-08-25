@@ -4,7 +4,7 @@ import SectionHeading from "@/components/SectionHeading";
 import Stats from "@/components/Stats";
 import Reveal from "@/components/Reveal";
 import CTA from "@/components/CTA";
-import { Emblem } from "@/components/Logo";
+import LogoStage from "@/components/LogoStage";
 import { site, whyUs } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -46,7 +46,7 @@ export default function AboutPage() {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(201,162,75,0.18),transparent_60%)]" />
               <div className="absolute inset-0 grid place-items-center">
                 <div className="text-center">
-                  <Emblem className="mx-auto h-48 w-auto" />
+                  <LogoStage className="mx-auto w-52" />
                   <p className="mt-4 text-xs uppercase tracking-[0.35em] text-gold">
                     Est. Excellence
                   </p>
