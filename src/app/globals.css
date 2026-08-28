@@ -148,11 +148,14 @@
 /* Coverage radar — waves emanating outward from the Sheffield hub */
 @keyframes pulsering {
   0% {
-    transform: scale(0.14);
+    transform: scale(0.1);
     opacity: 0;
   }
-  12% {
-    opacity: 0.7;
+  10% {
+    opacity: 0.9;
+  }
+  70% {
+    opacity: 0.5;
   }
   100% {
     transform: scale(1);
@@ -160,7 +163,7 @@
   }
 }
 .animate-pulsering {
-  animation: pulsering 4s ease-out infinite;
+  animation: pulsering 4.5s ease-out infinite;
 }
 
 /* Town markers — hidden, blinking into view as a wave front passes them */
@@ -172,15 +175,19 @@
   }
   10% {
     opacity: 1;
-    transform: scale(1.3);
+    transform: scale(1.15);
   }
-  28% {
+  22% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  40% {
     opacity: 0;
     transform: scale(0.6);
   }
 }
 .animate-dotblink {
-  animation: dotblink 4s ease-in-out infinite backwards;
+  animation: dotblink 4.5s ease-in-out infinite backwards;
 }
 
 /* Infinite credential marquee */

@@ -5,9 +5,9 @@ import { serviceAreas } from "@/lib/site";
 
 // Radar period (s) — waves and marker blinks share it so markers light up
 // roughly as a wave front reaches their radius.
-const PERIOD = 4;
+const PERIOD = 4.5;
 // Continuously-emanating waves, evenly staggered across the period.
-const waves = [0, 0.8, 1.6, 2.4, 3.2];
+const waves = [0, 0.75, 1.5, 2.25, 3.0, 3.75];
 
 // Town markers placed at varied radii (ρ, 0=centre→1=edge) and angles so they
 // spread across every wave; the blink delay is derived from ρ so outer markers
@@ -31,7 +31,7 @@ const markers = markerSpecs.map(([rho, deg]) => {
   return {
     left: 50 + rho * 50 * Math.cos(rad),
     top: 50 + rho * 50 * Math.sin(rad),
-    delay: Math.max(0, ((rho - 0.14) / 0.86) * PERIOD),
+    delay: Math.max(0, ((rho - 0.1) / 0.9) * PERIOD),
   };
 });
 
@@ -41,29 +41,33 @@ function CoverageRadar() {
       {/* soft glow */}
       <div className="pointer-events-none absolute inset-[15%] rounded-full bg-gold/10 blur-3xl" />
 
-      {/* faint guide ring for structure */}
-      <div className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold/10" />
-
       {/* emanating waves */}
       {waves.map((delay) => (
         <span
           key={delay}
-          className="animate-pulsering absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold/45"
+          className="animate-pulsering absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-gold/55"
           style={{ animationDelay: `${delay}s` }}
         />
       ))}
 
-      {/* town markers — blink into view as a wave passes */}
+      {/* town markers — location pins that blink into view as a wave passes */}
       {markers.map((m, i) => (
         <span
           key={i}
-          className="absolute -translate-x-1/2 -translate-y-1/2"
+          className="absolute -translate-x-1/2 -translate-y-full"
           style={{ top: `${m.top}%`, left: `${m.left}%` }}
         >
-          <span
-            className="animate-dotblink block h-2.5 w-2.5 rounded-full bg-gold-soft shadow-[0_0_0_3px_rgba(201,162,75,0.2),0_0_12px_3px_rgba(201,162,75,0.6)]"
+          <svg
+            viewBox="0 0 24 24"
+            className="animate-dotblink h-5 w-5 origin-bottom drop-shadow-[0_0_6px_rgba(201,162,75,0.8)]"
             style={{ animationDelay: `${m.delay}s` }}
-          />
+          >
+            <path
+              d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+              fill="#E4C77E"
+            />
+            <circle cx="12" cy="9" r="2.4" fill="#0B0B0D" />
+          </svg>
         </span>
       ))}
 
