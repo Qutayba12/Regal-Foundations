@@ -20,7 +20,7 @@ export const site = {
     whatsappNumber: "442000000000", // international format, no + or spaces
     email: "hello@regalfoundations.co.uk",
     address: "London, United Kingdom",
-    serviceArea: "London & the South East",
+    serviceArea: "the United Kingdom",
     hours: "Mon–Sat · 8:00am – 6:00pm",
   },
   social: {

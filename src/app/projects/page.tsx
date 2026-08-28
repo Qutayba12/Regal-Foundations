@@ -9,7 +9,7 @@ import CTA from "@/components/CTA";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "A selection of recent extensions, renovations and interior projects delivered by Regal Foundations across London and the South East.",
+    "A selection of recent extensions, renovations and interior projects delivered by Regal Foundations across the United Kingdom.",
 };
 
 export default function ProjectsPage() {

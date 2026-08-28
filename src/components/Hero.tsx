@@ -22,7 +22,7 @@ export default function Hero() {
             initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="eyebrow justify-center lg:justify-start"
+            className="eyebrow justify-center lg:justify-start [&::before]:hidden"
           >
             Premium Builders · {site.contact.serviceArea}
           </motion.p>
