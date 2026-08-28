@@ -258,6 +258,28 @@ export const testimonials = [
   },
 ];
 
+export const goldenThread = {
+  intro:
+    "In British building, the “golden thread” is the continuous, trusted record of a home’s design, safety and accountability — kept from the very first drawing to the final handover. We hold ours on every project, so your home is as sound behind the walls as it is beautiful in front of them.",
+  pillars: [
+    {
+      title: "Building Today",
+      text: "Craftsmanship poured into every brick, on site, right now.",
+      icon: "trowel",
+    },
+    {
+      title: "Supporting Tomorrow",
+      text: "Structures and systems engineered to protect what matters.",
+      icon: "shield",
+    },
+    {
+      title: "Standing Forever",
+      text: "A home built to outlast generations — sound for a lifetime.",
+      icon: "crown",
+    },
+  ],
+} as const;
+
 export const serviceAreas = {
   hub: "Sheffield",
   intro:

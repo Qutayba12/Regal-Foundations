@@ -167,6 +167,19 @@
   animation: pulsering 7s linear infinite backwards;
 }
 
+/* Golden thread — a light pulse flowing continuously along the drawn thread */
+@keyframes threadflow {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.animate-threadflow {
+  animation: threadflow 3.2s linear infinite;
+}
+
 /* Town markers — hidden, blinking into view as a wave front passes them */
 @keyframes dotblink {
   0%,
@@ -233,8 +246,13 @@
   .animate-marquee,
   .animate-marquee-rev,
   .animate-pulsering,
-  .animate-dotblink {
+  .animate-dotblink,
+  .animate-threadflow {
     animation: none;
+  }
+  /* Hide the travelling pulse entirely without motion */
+  .animate-threadflow {
+    opacity: 0;
   }
   .grain-overlay {
     display: none;

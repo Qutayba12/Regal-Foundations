@@ -10,6 +10,7 @@ import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import ProjectGallery from "@/components/ProjectGallery";
 import Testimonials from "@/components/Testimonials";
 import ServiceAreas from "@/components/ServiceAreas";
+import GoldenThread from "@/components/GoldenThread";
 import CTA from "@/components/CTA";
 import Reveal from "@/components/Reveal";
 import { services } from "@/lib/site";
@@ -128,6 +129,7 @@ export default function HomePage() {
       </section>
 
       <Testimonials />
+      <GoldenThread />
       <ServiceAreas />
       <CTA />
     </>
