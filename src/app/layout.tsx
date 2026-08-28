@@ -37,11 +37,16 @@ export const metadata: Metadata = {
     "kitchen extension",
   ],
   openGraph: {
-    title: `${site.name} — Building Today, Standing Forever`,
+    title: `${site.name} — Building Today | Supporting Tomorrow | Standing Forever`,
     description: site.description,
     type: "website",
     locale: "en_GB",
     siteName: site.name,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} — Building Today | Supporting Tomorrow | Standing Forever`,
+    description: site.description,
   },
   robots: { index: true, follow: true },
 };
