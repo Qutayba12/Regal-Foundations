@@ -162,7 +162,9 @@
   }
 }
 .animate-pulsering {
-  animation: pulsering 7s linear infinite;
+  /* `backwards` holds the 0% state (invisible, tiny) during the start delay,
+     so a delayed wave never flashes as a static full-size ring on load. */
+  animation: pulsering 7s linear infinite backwards;
 }
 
 /* Town markers — hidden, blinking into view as a wave front passes them */
