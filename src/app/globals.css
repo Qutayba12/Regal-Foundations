@@ -145,25 +145,24 @@
   100% { transform: translate3d(4%, 2%, 0); }
 }
 
-/* Coverage radar — waves emanating outward from the Sheffield hub */
+/* Coverage radar — waves emanating outward from the Sheffield hub. They keep
+   growing well past the container and fade out gradually, so there is no fixed
+   ring where they stop. */
 @keyframes pulsering {
   0% {
-    transform: scale(0.1);
+    transform: scale(0.06);
     opacity: 0;
   }
-  10% {
-    opacity: 0.9;
-  }
-  70% {
-    opacity: 0.5;
+  8% {
+    opacity: 0.8;
   }
   100% {
-    transform: scale(1);
+    transform: scale(2);
     opacity: 0;
   }
 }
 .animate-pulsering {
-  animation: pulsering 4.5s ease-out infinite;
+  animation: pulsering 7s linear infinite;
 }
 
 /* Town markers — hidden, blinking into view as a wave front passes them */
@@ -173,21 +172,21 @@
     opacity: 0;
     transform: scale(0.3);
   }
-  10% {
+  12% {
     opacity: 1;
     transform: scale(1.15);
   }
-  22% {
+  26% {
     opacity: 1;
     transform: scale(1);
   }
-  40% {
+  46% {
     opacity: 0;
     transform: scale(0.6);
   }
 }
 .animate-dotblink {
-  animation: dotblink 4.5s ease-in-out infinite backwards;
+  animation: dotblink 1.75s ease-in-out infinite backwards;
 }
 
 /* Infinite credential marquee */

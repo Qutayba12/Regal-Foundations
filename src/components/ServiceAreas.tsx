@@ -3,11 +3,16 @@ import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import { serviceAreas } from "@/lib/site";
 
-// Radar period (s) — waves and marker blinks share it so markers light up
-// roughly as a wave front reaches their radius.
-const PERIOD = 4.5;
-// Continuously-emanating waves, evenly staggered across the period.
-const waves = [0, 0.75, 1.5, 2.25, 3.0, 3.75];
+// Radar timing. A wave takes PERIOD seconds to travel from the centre out to
+// MAX_SCALE (well past the container); with WAVE_COUNT waves evenly staggered,
+// a wave front crosses any given radius every INTERVAL seconds — which is also
+// how often each marker there blinks.
+const PERIOD = 7;
+const WAVE_COUNT = 4;
+const INTERVAL = PERIOD / WAVE_COUNT; // 1.75s — matches the marker blink cycle
+const MIN_SCALE = 0.06;
+const MAX_SCALE = 2;
+const waves = Array.from({ length: WAVE_COUNT }, (_, i) => i * INTERVAL);
 
 // Town markers placed at varied radii (ρ, 0=centre→1=edge) and angles so they
 // spread across every wave; the blink delay is derived from ρ so outer markers
@@ -28,10 +33,13 @@ const markerSpecs: [number, number][] = [
 ];
 const markers = markerSpecs.map(([rho, deg]) => {
   const rad = (deg * Math.PI) / 180;
+  // Time for a wave front to reach this marker's radius, wrapped into the
+  // blink cycle so the pin lights up each time a wave passes it.
+  const reach = ((rho - MIN_SCALE) / (MAX_SCALE - MIN_SCALE)) * PERIOD;
   return {
     left: 50 + rho * 50 * Math.cos(rad),
     top: 50 + rho * 50 * Math.sin(rad),
-    delay: Math.max(0, ((rho - 0.1) / 0.9) * PERIOD),
+    delay: ((reach % INTERVAL) + INTERVAL) % INTERVAL,
   };
 });
 
