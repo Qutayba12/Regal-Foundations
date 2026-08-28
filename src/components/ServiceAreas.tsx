@@ -41,11 +41,12 @@ function CoverageRadar() {
       {/* soft glow */}
       <div className="pointer-events-none absolute inset-[15%] rounded-full bg-gold/10 blur-3xl" />
 
-      {/* emanating waves */}
+      {/* emanating waves (inset-0 keeps them centred; the scale animation
+          would otherwise override a transform-based centre offset) */}
       {waves.map((delay) => (
         <span
           key={delay}
-          className="animate-pulsering absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-gold/55"
+          className="animate-pulsering absolute inset-0 rounded-full border-2 border-gold/55"
           style={{ animationDelay: `${delay}s` }}
         />
       ))}
