@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Reveal from "./Reveal";
+import TiltCard from "./TiltCard";
 import type { Service } from "@/lib/site";
 
 function ServiceIcon({ icon }: { icon: Service["icon"] }) {
@@ -39,33 +40,50 @@ export default function ServiceCard({
   index?: number;
 }) {
   return (
-    <Reveal delay={index * 0.08}>
-      <div className="group card-surface h-full p-8 transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-card">
-        <div className="mb-6 grid h-14 w-14 place-items-center rounded-xl border border-gold/25 bg-ink text-gold transition-colors group-hover:bg-gold-sheen group-hover:text-ink">
-          <ServiceIcon icon={service.icon} />
+    <Reveal delay={index * 0.08} className="h-full">
+      <TiltCard className="h-full">
+        <div className="card-surface relative h-full overflow-hidden p-8 transition-colors duration-300 group-hover/tilt:border-gold/40 group-hover/tilt:shadow-card">
+          {/* corner index watermark */}
+          <span className="pointer-events-none absolute -right-2 -top-4 font-display text-7xl leading-none text-ink-line/70 transition-colors duration-300 group-hover/tilt:text-gold/10">
+            0{index + 1}
+          </span>
+
+          <div
+            className="mb-6 grid h-14 w-14 place-items-center rounded-xl border border-gold/25 bg-ink text-gold transition-colors group-hover/tilt:bg-gold-sheen group-hover/tilt:text-ink"
+            style={{ transform: "translateZ(50px)" }}
+          >
+            <ServiceIcon icon={service.icon} />
+          </div>
+          <h3
+            className="font-display text-2xl uppercase tracking-wide text-cream"
+            style={{ transform: "translateZ(32px)" }}
+          >
+            {service.title}
+          </h3>
+          <p
+            className="mt-3 text-sm leading-relaxed text-silver"
+            style={{ transform: "translateZ(18px)" }}
+          >
+            {service.description}
+          </p>
+          <ul className="mt-6 space-y-2" style={{ transform: "translateZ(12px)" }}>
+            {service.features.map((f) => (
+              <li key={f} className="flex items-start gap-2 text-sm text-silver-muted">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-gold" />
+                {f}
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/contact"
+            className="mt-7 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gold transition-all hover:gap-3"
+            style={{ transform: "translateZ(24px)" }}
+          >
+            Enquire
+            <span aria-hidden>→</span>
+          </Link>
         </div>
-        <h3 className="font-display text-2xl uppercase tracking-wide text-cream">
-          {service.title}
-        </h3>
-        <p className="mt-3 text-sm leading-relaxed text-silver">
-          {service.description}
-        </p>
-        <ul className="mt-6 space-y-2">
-          {service.features.map((f) => (
-            <li key={f} className="flex items-start gap-2 text-sm text-silver-muted">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-gold" />
-              {f}
-            </li>
-          ))}
-        </ul>
-        <Link
-          href="/contact"
-          className="mt-7 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-gold transition-all group-hover:gap-3"
-        >
-          Enquire
-          <span aria-hidden>→</span>
-        </Link>
-      </div>
+      </TiltCard>
     </Reveal>
   );
 }

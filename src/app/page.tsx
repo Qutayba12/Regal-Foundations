@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import Stats from "@/components/Stats";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCard from "@/components/ServiceCard";
+import ProcessTimeline from "@/components/ProcessTimeline";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import ProjectGallery from "@/components/ProjectGallery";
 import Testimonials from "@/components/Testimonials";
@@ -30,6 +31,20 @@ export default function HomePage() {
               <ServiceCard key={s.slug} service={s} index={i} />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Process — Foundation to Finish */}
+      <section className="border-t border-ink-line py-24">
+        <div className="container-x">
+          <SectionHeading
+            center
+            eyebrow="How We Work"
+            title="From Foundation"
+            highlight="to Finish"
+            subtitle="A calm, transparent journey from first conversation to the keys in your hand — you always know exactly what happens next."
+          />
+          <ProcessTimeline />
         </div>
       </section>
 

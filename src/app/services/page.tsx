@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import ServiceCard from "@/components/ServiceCard";
 import SectionHeading from "@/components/SectionHeading";
+import ProcessTimeline from "@/components/ProcessTimeline";
 import Reveal from "@/components/Reveal";
 import CTA from "@/components/CTA";
-import { services, process, faqs } from "@/lib/site";
+import { services, faqs } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -36,27 +37,11 @@ export default function ServicesPage() {
           <SectionHeading
             center
             eyebrow="How We Work"
-            title="A Clear,"
-            highlight="Simple Process"
+            title="From Foundation"
+            highlight="to Finish"
             subtitle="No jargon, no surprises. Just a proven path from first idea to finished home."
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {process.map((step, i) => (
-              <Reveal key={step.step} delay={i * 0.08}>
-                <div className="card-surface relative h-full p-7">
-                  <span className="font-display text-4xl text-gold-gradient">
-                    {step.step}
-                  </span>
-                  <h3 className="mt-3 text-lg font-semibold text-cream">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-silver">
-                    {step.text}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <ProcessTimeline />
         </div>
       </section>
 
