@@ -81,7 +81,7 @@ export default function HomePage() {
             <BeforeAfterSlider
               before="linear-gradient(135deg,#33363d,#1b1d24)"
               after="linear-gradient(135deg,#C9A24B,#6b5326)"
-              caption="Full kitchen & rear extension · Richmond"
+              caption="Full kitchen & rear extension · Ecclesall"
             />
           </Reveal>
         </div>

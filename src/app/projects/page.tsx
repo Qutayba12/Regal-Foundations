@@ -35,7 +35,7 @@ export default function ProjectsPage() {
             <BeforeAfterSlider
               before="linear-gradient(135deg,#34373e,#1c1e25)"
               after="linear-gradient(135deg,#E4C77E,#7c5f28)"
-              caption="Period restoration · Windsor"
+              caption="Period restoration · Ranmoor"
             />
           </Reveal>
           <div>
@@ -49,7 +49,7 @@ export default function ProjectsPage() {
               {[
                 ["Scope", "Full restoration"],
                 ["Duration", "16 weeks"],
-                ["Location", "Windsor, Berkshire"],
+                ["Location", "Ranmoor, Sheffield"],
                 ["Result", "A forever home"],
               ].map(([k, v]) => (
                 <div key={k}>

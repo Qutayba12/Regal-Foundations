@@ -154,42 +154,42 @@ export const projects: Project[] = [
   {
     title: "Victorian Rear Extension",
     category: "Extensions",
-    location: "Richmond, Sheffield",
+    location: "Nether Edge, Sheffield",
     before: "linear-gradient(135deg,#3a3d44,#20222a)",
     after: "linear-gradient(135deg,#C9A24B,#5a4a24)",
   },
   {
     title: "Full House Refurbishment",
     category: "Renovation",
-    location: "Guildford, Surrey",
+    location: "Fulwood, Sheffield",
     before: "linear-gradient(135deg,#33363d,#1c1e25)",
     after: "linear-gradient(135deg,#7d8794,#2f333b)",
   },
   {
     title: "Bespoke Kitchen & Diner",
     category: "Décor",
-    location: "Kingston, Sheffield",
+    location: "Ecclesall, Sheffield",
     before: "linear-gradient(135deg,#3d3a35,#232019)",
     after: "linear-gradient(135deg,#E4C77E,#8a6b2e)",
   },
   {
     title: "Loft & Master Suite",
     category: "Extensions",
-    location: "Wimbledon, Sheffield",
+    location: "Dore, Sheffield",
     before: "linear-gradient(135deg,#34373e,#1e2027)",
     after: "linear-gradient(135deg,#9aa3ad,#3a3f47)",
   },
   {
     title: "Period Property Restoration",
     category: "Renovation",
-    location: "Windsor, Berkshire",
+    location: "Ranmoor, Sheffield",
     before: "linear-gradient(135deg,#3a3630,#221f18)",
     after: "linear-gradient(135deg,#C9A24B,#4f4020)",
   },
   {
     title: "Luxury Bathroom Suite",
     category: "Décor",
-    location: "Esher, Surrey",
+    location: "Whirlow, Sheffield",
     before: "linear-gradient(135deg,#333640,#1d1f26)",
     after: "linear-gradient(135deg,#cfd4da,#43474f)",
   },
@@ -200,19 +200,19 @@ export const testimonials = [
     quote:
       "Regal Foundations transformed our tired terrace into a home we never want to leave. Meticulous, tidy and genuinely proud of their work.",
     name: "Sarah & James M.",
-    location: "Richmond",
+    location: "Nether Edge",
   },
   {
     quote:
       "The most professional builders we have ever worked with. Clear pricing, on schedule, and the finish is flawless.",
     name: "Daniel O.",
-    location: "Guildford",
+    location: "Fulwood",
   },
   {
     quote:
       "From the first consultation to the final handover, everything felt in safe hands. Our extension is stunning.",
     name: "Priya K.",
-    location: "Kingston",
+    location: "Ecclesall",
   },
 ];
 
