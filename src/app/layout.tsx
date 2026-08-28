@@ -21,7 +21,9 @@ const body = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://regalfoundations.co.uk"),
+  // Absolute-URL base for og:image, canonical, etc. Update to the custom
+  // domain (e.g. https://regalfoundations.co.uk) once it is connected.
+  metadataBase: new URL("https://regal-foundations.vercel.app"),
   title: {
     default: `${site.name} — Construction, Renovation & Extensions`,
     template: `%s | ${site.name}`,
