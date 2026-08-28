@@ -3,48 +3,68 @@ import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 import { serviceAreas } from "@/lib/site";
 
-// Decorative dots sprinkled on the rings to suggest surrounding towns.
-const dots = [
-  { top: "20%", left: "60%" },
-  { top: "34%", left: "27%" },
-  { top: "63%", left: "22%" },
-  { top: "70%", left: "68%" },
-  { top: "46%", left: "82%" },
-  { top: "80%", left: "44%" },
+// Radar period (s) — waves and marker blinks share it so markers light up
+// roughly as a wave front reaches their radius.
+const PERIOD = 4;
+// Continuously-emanating waves, evenly staggered across the period.
+const waves = [0, 0.8, 1.6, 2.4, 3.2];
+
+// Town markers placed at varied radii (ρ, 0=centre→1=edge) and angles so they
+// spread across every wave; the blink delay is derived from ρ so outer markers
+// light up later, in step with the expanding wave.
+const markerSpecs: [number, number][] = [
+  [0.34, 40],
+  [0.42, 300],
+  [0.5, 112],
+  [0.55, 205],
+  [0.6, 250],
+  [0.68, 158],
+  [0.72, 22],
+  [0.8, 82],
+  [0.85, 330],
+  [0.9, 208],
+  [0.48, 8],
+  [0.64, 128],
 ];
+const markers = markerSpecs.map(([rho, deg]) => {
+  const rad = (deg * Math.PI) / 180;
+  return {
+    left: 50 + rho * 50 * Math.cos(rad),
+    top: 50 + rho * 50 * Math.sin(rad),
+    delay: Math.max(0, ((rho - 0.14) / 0.86) * PERIOD),
+  };
+});
 
 function CoverageRadar() {
-  const rings = [100, 74, 50, 28]; // % diameters, outer → inner
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[26rem]">
       {/* soft glow */}
       <div className="pointer-events-none absolute inset-[15%] rounded-full bg-gold/10 blur-3xl" />
 
-      {/* static concentric rings */}
-      {rings.map((d, i) => (
-        <div
-          key={d}
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold"
-          style={{ width: `${d}%`, height: `${d}%`, opacity: 0.1 + i * 0.06 }}
-        />
-      ))}
+      {/* faint guide ring for structure */}
+      <div className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold/10" />
 
-      {/* pulsing radar rings */}
-      {[0, 1.25, 2.5].map((delay) => (
+      {/* emanating waves */}
+      {waves.map((delay) => (
         <span
           key={delay}
-          className="animate-pulsering absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold/50"
+          className="animate-pulsering absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold/45"
           style={{ animationDelay: `${delay}s` }}
         />
       ))}
 
-      {/* town dots */}
-      {dots.map((d, i) => (
+      {/* town markers — blink into view as a wave passes */}
+      {markers.map((m, i) => (
         <span
           key={i}
-          className="absolute h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/70 shadow-[0_0_10px_2px_rgba(201,162,75,0.5)]"
-          style={{ top: d.top, left: d.left }}
-        />
+          className="absolute -translate-x-1/2 -translate-y-1/2"
+          style={{ top: `${m.top}%`, left: `${m.left}%` }}
+        >
+          <span
+            className="animate-dotblink block h-2.5 w-2.5 rounded-full bg-gold-soft shadow-[0_0_0_3px_rgba(201,162,75,0.2),0_0_12px_3px_rgba(201,162,75,0.6)]"
+            style={{ animationDelay: `${m.delay}s` }}
+          />
+        </span>
       ))}
 
       {/* Sheffield hub */}
