@@ -214,6 +214,48 @@ export const testimonials = [
     name: "Priya K.",
     location: "Ecclesall",
   },
+  {
+    quote:
+      "Our double-storey extension doubled our living space and the finish is immaculate. They treated our home like their own.",
+    name: "Michael & Claire T.",
+    location: "Dore",
+  },
+  {
+    quote:
+      "A full renovation of a period property is daunting, but Regal made it effortless. Honest, tidy and always on time.",
+    name: "Rebecca H.",
+    location: "Ranmoor",
+  },
+  {
+    quote:
+      "The new kitchen and diner is the heart of our home now. Faultless craftsmanship and clear communication throughout.",
+    name: "Andrew P.",
+    location: "Whirlow",
+  },
+  {
+    quote:
+      "They restored our Victorian features beautifully while bringing everything up to modern standards. Couldn't be happier.",
+    name: "Sophie & Tom L.",
+    location: "Millhouses",
+  },
+  {
+    quote:
+      "From quote to completion there were no nasty surprises. The team were polite, respectful and genuinely skilled.",
+    name: "Hannah B.",
+    location: "Crosspool",
+  },
+  {
+    quote:
+      "Our loft conversion added a stunning master suite. Professional from day one — I recommend them to everyone.",
+    name: "James W.",
+    location: "Bents Green",
+  },
+  {
+    quote:
+      "Superb attention to detail on our bathroom suite. It feels like a luxury hotel now, and it came in on budget.",
+    name: "Olivia R.",
+    location: "Totley",
+  },
 ];
 
 export const faqs = [

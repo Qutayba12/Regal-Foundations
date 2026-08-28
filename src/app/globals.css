@@ -145,6 +145,13 @@
 .animate-marquee {
   animation: marquee 42s linear infinite;
 }
+.animate-marquee-rev {
+  animation: marquee 42s linear infinite reverse;
+}
+.marquee-row:hover .animate-marquee,
+.marquee-row:hover .animate-marquee-rev {
+  animation-play-state: paused;
+}
 .marquee-mask {
   -webkit-mask-image: linear-gradient(
     to right,
@@ -165,7 +172,8 @@
 @media (prefers-reduced-motion: reduce) {
   .animate-kenburns,
   .grain-overlay,
-  .animate-marquee {
+  .animate-marquee,
+  .animate-marquee-rev {
     animation: none;
   }
   .grain-overlay {
