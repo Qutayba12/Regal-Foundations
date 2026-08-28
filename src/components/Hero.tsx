@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import LogoStage from "./LogoStage";
 import SceneBackground from "./SceneBackground";
+import Magnetic from "./Magnetic";
 import { site } from "@/lib/site";
 
 const tagParts = site.tagline.split("·").map((s) => s.trim());
@@ -54,12 +55,16 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="mt-9 flex flex-wrap justify-center gap-4 lg:justify-start"
           >
-            <Link href="/contact" className="btn-gold">
-              Get a Free Quote
-            </Link>
-            <Link href="/projects" className="btn-ghost">
-              View Our Work
-            </Link>
+            <Magnetic>
+              <Link href="/contact" className="btn-gold">
+                Get a Free Quote
+              </Link>
+            </Magnetic>
+            <Magnetic strength={0.3}>
+              <Link href="/projects" className="btn-ghost">
+                View Our Work
+              </Link>
+            </Magnetic>
           </motion.div>
 
           {/* Tagline chips */}

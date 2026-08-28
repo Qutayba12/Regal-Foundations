@@ -98,8 +98,60 @@
 .animate-kenburns {
   animation: kenburns 26s ease-in-out infinite alternate;
 }
+
+/* Bespoke gold cursor — hide the native one while it is active (desktop) */
+.has-custom-cursor,
+.has-custom-cursor a,
+.has-custom-cursor button,
+.has-custom-cursor [role="button"],
+.has-custom-cursor label,
+.has-custom-cursor input,
+.has-custom-cursor textarea,
+.has-custom-cursor select,
+.has-custom-cursor summary {
+  cursor: none;
+}
+
+/* Cinematic film-grain overlay */
+.grain-overlay {
+  position: fixed;
+  inset: -150%;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  animation: grain 0.9s steps(4) infinite;
+  will-change: transform;
+}
+@keyframes grain {
+  0% { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(-4%, 3%, 0); }
+  50% { transform: translate3d(3%, -4%, 0); }
+  75% { transform: translate3d(-3%, -2%, 0); }
+  100% { transform: translate3d(4%, 2%, 0); }
+}
+
+/* Masked heading reveal — a gold-lit line wipes text into view on scroll */
+.reveal-mask {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-mask.is-in {
+  clip-path: inset(0 0 0 0);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-kenburns {
+  .animate-kenburns,
+  .grain-overlay {
     animation: none;
+  }
+  .grain-overlay {
+    display: none;
+  }
+  .reveal-mask {
+    clip-path: none;
+    transition: none;
   }
 }

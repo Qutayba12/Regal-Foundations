@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "./Logo";
+import Magnetic from "./Magnetic";
 import { nav, site } from "@/lib/site";
 
 export default function Header() {
@@ -58,9 +59,11 @@ export default function Header() {
         </nav>
 
         <div className="hidden lg:block">
-          <Link href="/contact" className="btn-gold">
-            Get a Free Quote
-          </Link>
+          <Magnetic>
+            <Link href="/contact" className="btn-gold">
+              Get a Free Quote
+            </Link>
+          </Magnetic>
         </div>
 
         {/* Mobile toggle */}

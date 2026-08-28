@@ -5,6 +5,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingButtons from "@/components/FloatingButtons";
 import JsonLd from "@/components/JsonLd";
+import Preloader from "@/components/Preloader";
+import CustomCursor from "@/components/CustomCursor";
+import ScrollProgress from "@/components/ScrollProgress";
+import GrainOverlay from "@/components/GrainOverlay";
 import { site } from "@/lib/site";
 
 const display = Anton({
@@ -68,10 +72,14 @@ export default function RootLayout({
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body className="min-h-screen bg-ink text-cream">
         <JsonLd />
+        <Preloader />
+        <ScrollProgress />
+        <CustomCursor />
         <Header />
         <main>{children}</main>
         <Footer />
         <FloatingButtons />
+        <GrainOverlay />
       </body>
     </html>
   );
