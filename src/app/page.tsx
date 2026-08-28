@@ -4,6 +4,7 @@ import Stats from "@/components/Stats";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCard from "@/components/ServiceCard";
 import ProcessTimeline from "@/components/ProcessTimeline";
+import TrustMarquee from "@/components/TrustMarquee";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import ProjectGallery from "@/components/ProjectGallery";
 import Testimonials from "@/components/Testimonials";
@@ -15,6 +16,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <TrustMarquee />
       <Stats />
 
       {/* Services */}
