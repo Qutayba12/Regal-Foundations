@@ -4,13 +4,14 @@ import Stats from "@/components/Stats";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCard from "@/components/ServiceCard";
 import ProcessTimeline from "@/components/ProcessTimeline";
+import WhyUsStack from "@/components/WhyUsStack";
 import TrustMarquee from "@/components/TrustMarquee";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import ProjectGallery from "@/components/ProjectGallery";
 import Testimonials from "@/components/Testimonials";
 import CTA from "@/components/CTA";
 import Reveal from "@/components/Reveal";
-import { services, whyUs } from "@/lib/site";
+import { services } from "@/lib/site";
 
 export default function HomePage() {
   return (
@@ -87,7 +88,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Why us */}
+      {/* Why us — wallet stacking cards */}
       <section className="py-24">
         <div className="container-x">
           <SectionHeading
@@ -97,23 +98,9 @@ export default function HomePage() {
             highlight="Above"
             subtitle="We are not the cheapest builders — we are the ones you call when it has to be done properly."
           />
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {whyUs.map((item, i) => (
-              <Reveal key={item.title} delay={i * 0.08}>
-                <div className="card-surface h-full p-7">
-                  <span className="font-display text-3xl text-gold-gradient">
-                    0{i + 1}
-                  </span>
-                  <h3 className="mt-4 text-lg font-semibold text-cream">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-silver">
-                    {item.text}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+        </div>
+        <div className="container-x">
+          <WhyUsStack />
         </div>
       </section>
 
