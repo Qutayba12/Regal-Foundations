@@ -19,7 +19,7 @@ export const site = {
     phoneHref: "+442000000000",
     whatsappNumber: "442000000000", // international format, no + or spaces
     email: "hello@regalfoundations.co.uk",
-    address: "London, United Kingdom",
+    address: "Sheffield, United Kingdom",
     serviceArea: "the United Kingdom",
     hours: "Mon–Sat · 8:00am – 6:00pm",
   },
@@ -154,7 +154,7 @@ export const projects: Project[] = [
   {
     title: "Victorian Rear Extension",
     category: "Extensions",
-    location: "Richmond, London",
+    location: "Richmond, Sheffield",
     before: "linear-gradient(135deg,#3a3d44,#20222a)",
     after: "linear-gradient(135deg,#C9A24B,#5a4a24)",
   },
@@ -168,14 +168,14 @@ export const projects: Project[] = [
   {
     title: "Bespoke Kitchen & Diner",
     category: "Décor",
-    location: "Kingston, London",
+    location: "Kingston, Sheffield",
     before: "linear-gradient(135deg,#3d3a35,#232019)",
     after: "linear-gradient(135deg,#E4C77E,#8a6b2e)",
   },
   {
     title: "Loft & Master Suite",
     category: "Extensions",
-    location: "Wimbledon, London",
+    location: "Wimbledon, Sheffield",
     before: "linear-gradient(135deg,#34373e,#1e2027)",
     after: "linear-gradient(135deg,#9aa3ad,#3a3f47)",
   },
