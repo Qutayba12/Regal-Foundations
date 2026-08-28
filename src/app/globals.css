@@ -10,10 +10,22 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* App-like: allow only vertical scroll — no pinch-zoom, no sideways drag */
+    touch-action: pan-y;
+    /* Never let the layout be dragged/scrolled horizontally */
+    overflow-x: clip;
+    overscroll-behavior-x: none;
+    /* Stop iOS from auto-inflating text (a form of zoom) */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   body {
     @apply bg-ink text-cream font-sans antialiased;
     text-rendering: optimizeLegibility;
+    overflow-x: clip;
+    overscroll-behavior-x: none;
+    width: 100%;
+    max-width: 100%;
   }
   ::selection {
     @apply bg-gold/30 text-cream;
@@ -115,7 +127,7 @@
 /* Cinematic film-grain overlay */
 .grain-overlay {
   position: fixed;
-  inset: -150%;
+  inset: -8%;
   z-index: 70;
   pointer-events: none;
   opacity: 0.05;

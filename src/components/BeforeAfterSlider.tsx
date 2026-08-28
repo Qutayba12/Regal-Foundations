@@ -44,6 +44,7 @@ export default function BeforeAfterSlider({
     <figure className={className}>
       <div
         ref={containerRef}
+        style={{ touchAction: "none" }}
         className="relative aspect-[4/3] w-full select-none overflow-hidden rounded-2xl border border-ink-line"
         onPointerDown={(e) => {
           dragging.current = true;
