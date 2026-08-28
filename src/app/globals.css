@@ -133,6 +133,21 @@
   100% { transform: translate3d(4%, 2%, 0); }
 }
 
+/* Coverage radar — rings pulsing outward from the Sheffield hub */
+@keyframes pulsering {
+  0% {
+    transform: scale(0.28);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+.animate-pulsering {
+  animation: pulsering 3.8s ease-out infinite;
+}
+
 /* Infinite credential marquee */
 @keyframes marquee {
   from {
@@ -173,7 +188,8 @@
   .animate-kenburns,
   .grain-overlay,
   .animate-marquee,
-  .animate-marquee-rev {
+  .animate-marquee-rev,
+  .animate-pulsering {
     animation: none;
   }
   .grain-overlay {

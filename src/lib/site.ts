@@ -258,6 +258,35 @@ export const testimonials = [
   },
 ];
 
+export const serviceAreas = {
+  hub: "Sheffield",
+  intro:
+    "Based in Sheffield, we build across the city's suburbs and out into the wider South Yorkshire and Derbyshire region — right up to the edge of the Peak District.",
+  // Editable list of the areas we cover (used by the coverage section).
+  areas: [
+    "Nether Edge",
+    "Ecclesall",
+    "Fulwood",
+    "Dore",
+    "Ranmoor",
+    "Totley",
+    "Whirlow",
+    "Millhouses",
+    "Crosspool",
+    "Bents Green",
+    "Broomhill",
+    "Hillsborough",
+    "Walkley",
+    "Woodseats",
+    "Bradway",
+    "Stannington",
+    "Dronfield",
+    "Rotherham",
+    "Chesterfield",
+    "Hathersage",
+  ],
+} as const;
+
 export const faqs = [
   {
     q: "Do you handle planning permission and building regulations?",
