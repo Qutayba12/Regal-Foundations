@@ -4,7 +4,7 @@ import Stats from "@/components/Stats";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCard from "@/components/ServiceCard";
 import ProcessTimeline from "@/components/ProcessTimeline";
-import BlueprintReveal from "@/components/BlueprintReveal";
+import SelfBuildingHouse from "@/components/SelfBuildingHouse";
 import WhyUsStack from "@/components/WhyUsStack";
 import TrustMarquee from "@/components/TrustMarquee";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
@@ -40,24 +40,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Blueprint → Reality */}
-      <section className="border-t border-ink-line bg-ink-soft py-24">
-        <div className="container-x">
-          <SectionHeading
-            center
-            eyebrow="Vision to Reality"
-            title="From Blueprint"
-            highlight="to Reality"
-            subtitle="Every Regal home begins as a precise plan. Move across the drawing to reveal the finished build beneath it."
-          />
-          <Reveal className="mt-14">
-            <BlueprintReveal />
-          </Reveal>
-          <p className="mt-5 text-center text-xs uppercase tracking-[0.25em] text-silver-muted">
-            Move your cursor — or drag on touch
-          </p>
-        </div>
-      </section>
+      {/* Self-building house */}
+      <SelfBuildingHouse />
 
       {/* Process — Foundation to Finish */}
       <section className="border-t border-ink-line py-24">
