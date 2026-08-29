@@ -4,7 +4,6 @@ import Stats from "@/components/Stats";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCard from "@/components/ServiceCard";
 import ProcessTimeline from "@/components/ProcessTimeline";
-import SelfBuildingHouse from "@/components/SelfBuildingHouse";
 import WhyUsStack from "@/components/WhyUsStack";
 import TrustMarquee from "@/components/TrustMarquee";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
@@ -39,9 +38,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Self-building house */}
-      <SelfBuildingHouse />
 
       {/* Process — Foundation to Finish */}
       <section className="border-t border-ink-line py-24">
