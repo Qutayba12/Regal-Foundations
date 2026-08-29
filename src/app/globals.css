@@ -159,6 +159,11 @@
   100% { transform: translate3d(4%, 2%, 0); }
 }
 
+/* Molten-gold canvas — static gradient fallback (reduced motion / no WebGL) */
+.molten-canvas {
+  background: radial-gradient(circle at 42% 36%, #f0d78e, #c9a24b 42%, #6b5326 74%, #14100a 108%);
+}
+
 /* Coverage radar — waves emanating outward from the Sheffield hub. They keep
    growing well past the container and fade out gradually, so there is no fixed
    ring where they stop. */
