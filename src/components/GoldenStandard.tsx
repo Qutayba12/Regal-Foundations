@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useReducedMotion } from "framer-motion";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
+import GoldenThreadPillars from "./GoldenThreadPillars";
+import { goldenThread } from "@/lib/site";
 
 const FRAG = `
 precision highp float;
@@ -172,16 +174,26 @@ export default function GoldenStandard() {
 
   return (
     <section className="border-t border-ink-line py-24">
-      <div className="container-x grid items-center gap-12 lg:grid-cols-2">
-        {/* Copy */}
+      <div className="container-x">
+        {/* Heading + the golden-thread meaning */}
+        <div className="mx-auto max-w-2xl text-center">
+          <SectionHeading center eyebrow="Assured Quality" title="The Golden" highlight="Standard" />
+        </div>
+        <p className="mx-auto mt-5 max-w-3xl text-center text-base leading-relaxed text-silver sm:text-lg">
+          {goldenThread.intro}
+        </p>
+      </div>
+
+      <div className="container-x mt-14 grid items-center gap-12 lg:grid-cols-2">
+        {/* Value / proof */}
         <div>
-          <SectionHeading
-            eyebrow="Uncompromising Quality"
-            title="The Gold"
-            highlight="Standard"
-            subtitle="We don't cut corners — we set the benchmark. Every Regal home is built to a standard worth its weight in gold, so what you invest today only grows in value."
-          />
-          <ul className="mt-8 space-y-3">
+          <h3 className="font-display text-2xl uppercase tracking-wide text-cream sm:text-3xl">
+            Worth its weight <span className="text-gold-gradient">in gold</span>
+          </h3>
+          <p className="mt-4 text-silver">
+            We don&apos;t cut corners — we set the benchmark, so what you invest today only grows in value.
+          </p>
+          <ul className="mt-6 space-y-3">
             {points.map((t, i) => (
               <Reveal key={t} delay={i * 0.07}>
                 <li className="flex items-start gap-3 text-silver">
@@ -222,6 +234,11 @@ export default function GoldenStandard() {
             </div>
           </div>
         </Reveal>
+      </div>
+
+      {/* The three pillars, linked by the golden thread */}
+      <div className="container-x">
+        <GoldenThreadPillars />
       </div>
     </section>
   );
