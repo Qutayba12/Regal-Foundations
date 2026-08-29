@@ -64,10 +64,16 @@ export default function Preloader() {
             document.body.style.overflow = "";
           }}
         >
-          {/* soft radial glow behind the mark */}
+          {/* soft glow behind the mark — a radial gradient rather than a
+              blur filter, so iOS Safari never flashes the filter's square
+              bounding box while the page loads */}
           <motion.div
             aria-hidden
-            className="pointer-events-none absolute h-[60vmin] w-[60vmin] rounded-full bg-gold/10 blur-[90px]"
+            className="pointer-events-none absolute h-[85vmin] w-[85vmin]"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(201,162,75,0.14), transparent 60%)",
+            }}
             initial={{ opacity: 0, scale: 0.6 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}

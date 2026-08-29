@@ -69,8 +69,16 @@ export default function LogoStage({
     >
       {glow && (
         <>
-          <div className="pointer-events-none absolute inset-[-22%] rounded-full bg-gold/12 blur-[85px]" />
-          <div className="pointer-events-none absolute inset-[-6%] rounded-full bg-silver/8 blur-[60px]" />
+          {/* gold + silver halo — radial gradients rather than blur filters,
+              so iOS Safari never flashes the filter's square bounding box */}
+          <div
+            className="pointer-events-none absolute inset-[-22%]"
+            style={{ background: "radial-gradient(circle, rgba(201,162,75,0.16), transparent 62%)" }}
+          />
+          <div
+            className="pointer-events-none absolute inset-[-6%]"
+            style={{ background: "radial-gradient(circle, rgba(199,203,209,0.10), transparent 60%)" }}
+          />
         </>
       )}
 

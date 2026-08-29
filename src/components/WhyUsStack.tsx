@@ -43,8 +43,12 @@ function StackCard({
         style={{ scale, top: `calc(-4vh + ${i * 32}px)` }}
         className="relative w-full max-w-3xl origin-top overflow-hidden rounded-[2rem] border border-gold/20 bg-ink-card shadow-card"
       >
-        {/* gold corner glow + hairline top edge */}
-        <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-gold/10 blur-3xl" />
+        {/* gold corner glow (radial gradient, no blur filter → no iOS
+            square flash) + hairline top edge */}
+        <div
+          className="pointer-events-none absolute -right-20 -top-20 h-56 w-56"
+          style={{ background: "radial-gradient(circle, rgba(201,162,75,0.12), transparent 62%)" }}
+        />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
 
         <div className="relative p-8 sm:p-12">
