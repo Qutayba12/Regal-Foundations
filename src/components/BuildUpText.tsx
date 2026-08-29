@@ -1,13 +1,14 @@
 "use client";
 
-import { Fragment } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { Fragment, useRef } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 
 /**
  * Reveals a heading as it scrolls into view by "building up" letter by letter —
- * each glyph rises into place with a stagger, like courses being laid. Letters
- * are grouped per word so words never break mid-way, and the full text is
- * exposed to screen readers via aria-label. Reduced-motion renders it plainly.
+ * each glyph rises into place with a stagger, like courses being laid. A single
+ * container-level in-view trigger drives every letter (so none can get stuck
+ * hidden), letters are grouped per word so words never break mid-way, and the
+ * full text is exposed to screen readers. Reduced-motion renders it plainly.
  */
 export default function BuildUpText({
   text,
@@ -21,13 +22,17 @@ export default function BuildUpText({
   per?: number;
 }) {
   const reduce = useReducedMotion();
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const on = inView || !!reduce;
+
   if (reduce) return <span className={className}>{text}</span>;
 
   const words = text.split(" ");
   let g = 0;
 
   return (
-    <span className={className} aria-label={text}>
+    <span ref={ref} className={className} aria-label={text}>
       {words.map((word, wi) => (
         <Fragment key={wi}>
           <span className="inline-block whitespace-nowrap" aria-hidden="true">
@@ -38,9 +43,8 @@ export default function BuildUpText({
                 <motion.span
                   key={ci}
                   className="inline-block"
-                  initial={{ opacity: 0, y: "65%" }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
+                  initial={false}
+                  animate={{ opacity: on ? 1 : 0, y: on ? 0 : "65%" }}
                   transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
                 >
                   {ch}
