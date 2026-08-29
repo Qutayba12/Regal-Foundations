@@ -12,44 +12,68 @@ import {
 } from "framer-motion";
 
 /* ---------- isometric projection ---------- */
-const S = 26; // px per grid unit
+const S = 40;
 const COS = 0.8660254;
-const OX = 300; // screen centre x
-const OY = 360; // screen baseline y
-const P = (x: number, y: number, z: number) =>
-  `${(OX + (x - z) * COS * S).toFixed(1)},${(OY + (x + z) * 0.5 * S - y * S).toFixed(1)}`;
+const OX = 300;
+const OY = 320;
+const pt = (x: number, y: number, z: number) => ({
+  X: OX + (x - z) * COS * S,
+  Y: OY + (x + z) * 0.5 * S - y * S,
+});
+const P = (x: number, y: number, z: number) => {
+  const p = pt(x, y, z);
+  return `${p.X.toFixed(1)},${p.Y.toFixed(1)}`;
+};
+const poly = (...c: [number, number, number][]) => c.map(([x, y, z]) => P(x, y, z)).join(" ");
 
-// A box's three visible faces (top, front(z+d), right(x+w)) as polygon points.
 function box(x: number, y: number, z: number, w: number, h: number, d: number) {
-  const top = [P(x, y + h, z), P(x + w, y + h, z), P(x + w, y + h, z + d), P(x, y + h, z + d)].join(" ");
-  const front = [P(x, y, z + d), P(x + w, y, z + d), P(x + w, y + h, z + d), P(x, y + h, z + d)].join(" ");
-  const right = [P(x + w, y, z), P(x + w, y, z + d), P(x + w, y + h, z + d), P(x + w, y + h, z)].join(" ");
-  return { top, front, right };
+  return {
+    top: poly([x, y + h, z], [x + w, y + h, z], [x + w, y + h, z + d], [x, y + h, z + d]),
+    front: poly([x, y, z + d], [x + w, y, z + d], [x + w, y + h, z + d], [x, y + h, z + d]),
+    right: poly([x + w, y, z], [x + w, y, z + d], [x + w, y + h, z + d], [x + w, y + h, z]),
+  };
 }
-// A window rectangle on the front face (constant z).
-const win = (xa: number, xb: number, ya: number, yb: number, z: number) =>
-  [P(xa, ya, z), P(xb, ya, z), P(xb, yb, z), P(xa, yb, z)].join(" ");
+const rect = (xa: number, xb: number, ya: number, yb: number, z: number) =>
+  poly([xa, ya, z], [xb, ya, z], [xb, yb, z], [xa, yb, z]);
+
+// horizontal cladding/seam lines on a front face (constant z)
+const seamsFront = (xa: number, xb: number, ys: number[], z: number) =>
+  ys.map((y) => [pt(xa, y, z), pt(xb, y, z)]);
+// horizontal cladding lines on a right face (constant x)
+const seamsRight = (za: number, zb: number, ys: number[], x: number) =>
+  ys.map((y) => [pt(x, y, za), pt(x, y, zb)]);
+
+/* ---------- materials (top / front / side) ---------- */
+const STONE = { t: "#40454f", f: "#2d313a", s: "#1f222a" };
+const WOOD = { t: "#835f34", f: "#664824", s: "#48331a" };
+const CAP = { t: "#2c2f38", f: "#1c1e26", s: "#141620" };
 
 /* ---------- geometry ---------- */
-const slab = box(-0.35, 0, -0.35, 5.7, 0.4, 4.2);
-const lower = box(0, 0.4, 0.3, 5, 2.2, 3);
-const upper = box(0.2, 2.6, -0.3, 3.4, 1.9, 3); // cantilevered toward the front
-const roof = box(0.2, 4.5, -0.3, 3.4, 0.16, 3);
-const LOWER_Z = 3.3; // front face of lower volume
-const UPPER_Z = 2.7; // front face of upper volume
-const lowerWindows = [
-  win(0.35, 1.25, 0.85, 1.85, LOWER_Z),
-  win(1.5, 2.4, 0.85, 1.85, LOWER_Z),
-  win(2.65, 3.05, 0.7, 2.0, LOWER_Z),
-  win(3.35, 4.65, 0.7, 2.0, LOWER_Z),
-];
-const upperWindows = [
-  win(0.5, 1.55, 3.05, 4.15, UPPER_Z),
-  win(1.75, 2.5, 3.05, 4.15, UPPER_Z),
-  win(2.7, 3.25, 3.05, 4.15, UPPER_Z),
-];
+const plinth = box(-0.45, -0.3, -0.45, 5.9, 0.45, 3.9);
+const baseV = box(0, 0.15, 0.3, 5, 2.35, 2.7); // stone, front z=3.0
+const upperV = box(0.4, 2.5, 0.6, 3.4, 1.8, 3.2); // wood, front z=3.8 (overhang 0.8)
+const baseCap = box(0, 2.5, 0.3, 5, 0.14, 2.7);
+const upperCap = box(0.4, 4.3, 0.6, 3.4, 0.14, 3.2);
+const under = poly([0.4, 2.5, 3.0], [3.8, 2.5, 3.0], [3.8, 2.5, 3.8], [0.4, 2.5, 3.8]);
 
-const FACE = { top: "#262832", front: "#191b22", right: "#111319" };
+const LR = { xa: 0.35, xb: 2.8, ya: 0.4, yb: 2.3, z: 3.0 };
+const BR = { xa: 0.75, xb: 3.45, ya: 2.78, yb: 4.05, z: 3.8 };
+const mull = (g: typeof LR, n: number) =>
+  Array.from({ length: n - 1 }, (_, i) => {
+    const x = g.xa + ((g.xb - g.xa) * (i + 1)) / n;
+    return [pt(x, g.ya, g.z), pt(x, g.yb, g.z)];
+  });
+
+const pool = poly([0.3, 0.18, 3.95], [4.7, 0.18, 3.95], [4.7, 0.18, 5.7], [0.3, 0.18, 5.7]);
+const poolReflect = poly([0.9, 0.19, 4.2], [2.5, 0.19, 4.2], [2.4, 0.19, 5.4], [0.8, 0.19, 5.4]);
+const poolShimmer = [
+  poly([3.0, 0.19, 4.3], [4.4, 0.19, 4.3], [4.35, 0.19, 4.45], [2.95, 0.19, 4.45]),
+  poly([3.2, 0.19, 5.0], [4.2, 0.19, 5.0], [4.15, 0.19, 5.15], [3.15, 0.19, 5.15]),
+];
+const treeSpots: [number, number][] = [
+  [-0.15, 4.7],
+  [5.0, 4.9],
+];
 
 const stages = [
   { label: "Foundations", text: "Engineered from the ground up." },
@@ -57,117 +81,165 @@ const stages = [
   { label: "Finish", text: "The regal touches that make it home." },
 ];
 
-/* ---------- a build-in group ---------- */
 function Part({
   p,
   from,
   to,
+  rise = 42,
   children,
-  rise = 46,
 }: {
   p: MotionValue<number>;
   from: number;
   to: number;
-  children: React.ReactNode;
   rise?: number;
+  children: React.ReactNode;
 }) {
   const opacity = useTransform(p, [from, from + (to - from) * 0.5], [0, 1]);
   const y = useTransform(p, [from, to], [rise, 0]);
-  return (
-    <motion.g style={{ opacity, y }}>{children}</motion.g>
-  );
+  return <motion.g style={{ opacity, y }}>{children}</motion.g>;
 }
 
-function Volume({
-  faces,
-  windows,
-  winReveal,
-  p,
-}: {
-  faces: { top: string; front: string; right: string };
-  windows?: string[];
-  winReveal?: [number, number];
-  p: MotionValue<number>;
-}) {
-  const glow = useTransform(p, winReveal ?? [0.82, 1], [0, 1]);
+function Face({ points, fill, o = 0.4 }: { points: string; fill: string; o?: number }) {
+  return <polygon points={points} fill={fill} stroke="#C9A24B" strokeOpacity={o} strokeWidth="0.8" strokeLinejoin="round" />;
+}
+
+function Lines({ segs, color, w = 0.7, o = 1 }: { segs: { X: number; Y: number }[][]; color: string; w?: number; o?: number }) {
   return (
-    <g>
-      <polygon points={faces.right} fill={FACE.right} stroke="#C9A24B" strokeOpacity="0.45" strokeWidth="1" strokeLinejoin="round" />
-      <polygon points={faces.front} fill={FACE.front} stroke="#C9A24B" strokeOpacity="0.55" strokeWidth="1" strokeLinejoin="round" />
-      <polygon points={faces.top} fill={FACE.top} stroke="#C9A24B" strokeOpacity="0.6" strokeWidth="1" strokeLinejoin="round" />
-      {windows?.map((w, i) => (
-        <g key={i}>
-          <motion.polygon points={w} fill="url(#winGlow)" style={{ opacity: glow }} filter="url(#softGlow)" />
-          <polygon points={w} fill="none" stroke="#E4C77E" strokeOpacity="0.5" strokeWidth="0.75" />
-        </g>
+    <>
+      {segs.map((s, i) => (
+        <line key={i} x1={s[0].X} y1={s[0].Y} x2={s[1].X} y2={s[1].Y} stroke={color} strokeWidth={w} strokeOpacity={o} />
       ))}
-    </g>
+    </>
   );
 }
 
 export default function SelfBuildingHouse() {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const raw = useSpring(scrollYProgress, { stiffness: 90, damping: 22, restDelta: 0.001 });
-  // Hooks must run unconditionally; pick which value to use afterwards.
   const built = useTransform(raw, () => 1);
   const p = reduce ? built : raw;
+  const glow = useTransform(p, [0.8, 0.98], [0, 1]);
 
   const [stage, setStage] = useState(0);
-  useMotionValueEvent(p, "change", (v) => {
-    setStage(v < 0.4 ? 0 : v < 0.75 ? 1 : 2);
-  });
+  useMotionValueEvent(p, "change", (v) => setStage(v < 0.4 ? 0 : v < 0.72 ? 1 : 2));
 
-  const defs = (
-    <defs>
-      <linearGradient id="winGlow" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stopColor="#FFE7A6" />
-        <stop offset="1" stopColor="#E0A23A" />
-      </linearGradient>
-      <radialGradient id="floorGlow" cx="50%" cy="50%" r="50%">
-        <stop offset="0" stopColor="#C9A24B" stopOpacity="0.18" />
-        <stop offset="1" stopColor="#C9A24B" stopOpacity="0" />
-      </radialGradient>
-      <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
-        <feGaussianBlur stdDeviation="2.4" />
-      </filter>
-    </defs>
+  const glass = (g: typeof LR, n: number) => (
+    <g>
+      <polygon points={rect(g.xa, g.xb, g.ya, g.yb, g.z)} fill="#132430" />
+      <Lines segs={mull(g, n)} color="#0a141c" w={1.4} />
+      <polygon points={rect(g.xa, g.xb, g.ya, g.yb, g.z)} fill="none" stroke="#E4C77E" strokeOpacity="0.55" strokeWidth="0.9" />
+    </g>
   );
 
   const scene = (
-    <svg viewBox="0 0 600 560" className="mx-auto w-full max-w-2xl overflow-visible" aria-hidden>
-      {defs}
-      <ellipse cx="300" cy="470" rx="240" ry="70" fill="url(#floorGlow)" />
-      <Part p={p} from={0.04} to={0.26} rise={30}>
-        <Volume faces={slab} p={p} />
+    <svg viewBox="100 140 400 345" className="mx-auto w-full max-w-xl overflow-visible" aria-hidden>
+      <defs>
+        <linearGradient id="winGlow" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#FBDD9A" />
+          <stop offset="1" stopColor="#D99A34" />
+        </linearGradient>
+        <radialGradient id="floorGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stopColor="#C9A24B" stopOpacity="0.16" />
+          <stop offset="1" stopColor="#C9A24B" stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id="spill" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stopColor="#F4C56A" stopOpacity="0.32" />
+          <stop offset="1" stopColor="#F4C56A" stopOpacity="0" />
+        </radialGradient>
+        <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="2" />
+        </filter>
+      </defs>
+
+      <ellipse cx="300" cy="440" rx="195" ry="48" fill="url(#floorGlow)" />
+
+      {/* Foundations: plinth + empty pool */}
+      <Part p={p} from={0.04} to={0.24} rise={26}>
+        <Face points={plinth.right} fill={CAP.s} />
+        <Face points={plinth.front} fill={CAP.f} o={0.45} />
+        <Face points={plinth.top} fill="#2c2f38" o={0.5} />
+        <polygon points={pool} fill="#0c1a2b" stroke="#C9A24B" strokeOpacity="0.35" strokeWidth="0.8" />
       </Part>
-      <Part p={p} from={0.24} to={0.5}>
-        <Volume faces={lower} windows={lowerWindows} winReveal={[0.8, 1]} p={p} />
+
+      {/* Structure: stone base */}
+      <Part p={p} from={0.22} to={0.46}>
+        <Face points={baseV.right} fill={STONE.s} />
+        <Face points={baseV.front} fill={STONE.f} o={0.5} />
+        <Face points={baseV.top} fill={STONE.t} o={0.55} />
+        <Lines segs={seamsFront(0, 5, [1.0, 1.75], 3.0)} color="#151820" o={0.7} />
+        <Lines segs={seamsRight(0.3, 3.0, [1.0, 1.75], 5)} color="#0f1117" o={0.7} />
+        {glass(LR, 3)}
       </Part>
-      <Part p={p} from={0.46} to={0.7}>
-        <Volume faces={upper} windows={upperWindows} winReveal={[0.84, 1]} p={p} />
+
+      {/* Structure: wood cantilever */}
+      <Part p={p} from={0.44} to={0.66} rise={46}>
+        <polygon points={under} fill="#0b0d12" />
+        <Face points={upperV.right} fill={WOOD.s} />
+        <Face points={upperV.front} fill={WOOD.f} o={0.5} />
+        <Face points={upperV.top} fill={WOOD.t} o={0.55} />
+        <Lines segs={seamsFront(0.4, 3.8, [2.9, 3.25, 3.6, 3.95], 3.8)} color="#3a2916" o={0.8} />
+        <Lines segs={seamsRight(0.6, 3.8, [2.9, 3.25, 3.6, 3.95], 3.8)} color="#2c1f10" o={0.8} />
+        {glass(BR, 3)}
       </Part>
-      <Part p={p} from={0.66} to={0.82} rise={30}>
-        <Volume faces={roof} p={p} />
+
+      {/* Roof caps */}
+      <Part p={p} from={0.64} to={0.8} rise={18}>
+        <Face points={baseCap.right} fill={CAP.s} />
+        <Face points={baseCap.front} fill={CAP.f} o={0.45} />
+        <Face points={baseCap.top} fill={CAP.t} o={0.5} />
+        <Face points={upperCap.right} fill={CAP.s} />
+        <Face points={upperCap.front} fill={CAP.f} o={0.45} />
+        <Face points={upperCap.top} fill={CAP.t} o={0.5} />
       </Part>
+
+      {/* Finish: landscaping */}
+      <Part p={p} from={0.8} to={1} rise={12}>
+        {treeSpots.map(([tx, tz], i) => {
+          const g = pt(tx, 0.15, tz);
+          const top = pt(tx, 1.35, tz);
+          return (
+            <g key={i}>
+              <ellipse cx={g.X} cy={g.Y} rx="14" ry="4.5" fill="#000" opacity="0.28" />
+              <line x1={g.X} y1={g.Y} x2={top.X} y2={top.Y} stroke="#4a3620" strokeWidth="2.6" />
+              <ellipse cx={top.X} cy={top.Y - 12} rx="15" ry="20" fill="#2f3d27" stroke="#C9A24B" strokeOpacity="0.35" strokeWidth="0.8" />
+              <ellipse cx={top.X - 5} cy={top.Y - 17} rx="7" ry="9" fill="#3c4d31" opacity="0.75" />
+            </g>
+          );
+        })}
+      </Part>
+
+      {/* Warm glow (windows, spill, pool) — fades in at finish */}
+      <motion.g style={{ opacity: glow }}>
+        <ellipse cx={pt(1.4, 0.35, 3.0).X} cy={pt(1.4, 0.35, 3.0).Y + 4} rx="78" ry="22" fill="url(#spill)" />
+        {/* soft halo */}
+        <polygon points={rect(LR.xa, LR.xb, LR.ya, LR.yb, LR.z)} fill="url(#winGlow)" filter="url(#softGlow)" opacity="0.4" />
+        <polygon points={rect(BR.xa, BR.xb, BR.ya, BR.yb, BR.z)} fill="url(#winGlow)" filter="url(#softGlow)" opacity="0.4" />
+        {/* crisp lit glass */}
+        <polygon points={rect(LR.xa, LR.xb, LR.ya, LR.yb, LR.z)} fill="url(#winGlow)" opacity="0.82" />
+        <polygon points={rect(BR.xa, BR.xb, BR.ya, BR.yb, BR.z)} fill="url(#winGlow)" opacity="0.82" />
+        <Lines segs={mull(LR, 3)} color="#8a641f" w={1} />
+        <Lines segs={mull(BR, 3)} color="#8a641f" w={1} />
+        <polygon points={rect(LR.xa, LR.xb, LR.ya, LR.yb, LR.z)} fill="none" stroke="#FFE8B0" strokeOpacity="0.5" strokeWidth="0.8" />
+        <polygon points={rect(BR.xa, BR.xb, BR.ya, BR.yb, BR.z)} fill="none" stroke="#FFE8B0" strokeOpacity="0.5" strokeWidth="0.8" />
+        <polygon points={poolReflect} fill="#E4C77E" opacity="0.14" />
+        {poolShimmer.map((s, i) => (
+          <polygon key={i} points={s} fill="#E4C77E" opacity={0.3 - i * 0.12} />
+        ))}
+      </motion.g>
     </svg>
   );
 
   const indicator = (
-    <div className="mt-6 flex flex-wrap items-start justify-center gap-x-10 gap-y-4">
+    <div className="relative z-10 mt-6 flex flex-wrap items-start justify-center gap-x-10 gap-y-4">
       {stages.map((s, i) => (
         <div key={s.label} className="max-w-[13rem] text-center transition-opacity duration-300" style={{ opacity: stage === i ? 1 : 0.4 }}>
           <div className="flex items-center justify-center gap-2">
             <span className={`grid h-7 w-7 place-items-center rounded-full border text-xs font-semibold ${stage >= i ? "border-gold bg-gold-sheen text-ink" : "border-ink-line text-silver-muted"}`}>
               {i + 1}
             </span>
-            <span className="font-display text-lg uppercase tracking-wide text-gold-gradient">
-              {s.label}
-            </span>
+            <span className="font-display text-lg uppercase tracking-wide text-gold-gradient">{s.label}</span>
           </div>
           <p className="mt-1 text-xs text-silver">{s.text}</p>
         </div>
@@ -176,18 +248,13 @@ export default function SelfBuildingHouse() {
   );
 
   return (
-    <section
-      ref={ref}
-      className="relative border-t border-ink-line bg-ink-soft"
-      style={{ height: reduce ? "auto" : "240vh" }}
-    >
-      <div className={`${reduce ? "py-24" : "sticky top-0 flex h-screen flex-col justify-center overflow-hidden py-16"}`}>
+    <section ref={ref} className="relative border-t border-ink-line bg-ink-soft" style={{ height: reduce ? "auto" : "240vh" }}>
+      <div className={reduce ? "py-24" : "sticky top-0 flex h-screen flex-col justify-center overflow-hidden py-14"}>
         <div className="container-x">
           <div className="mx-auto max-w-2xl text-center">
             <span className="eyebrow justify-center">Watch It Rise</span>
             <h2 className="display-title text-4xl text-cream sm:text-5xl">
-              Built Before{" "}
-              <span className="text-gold-gradient">Your Eyes</span>
+              Built Before <span className="text-gold-gradient">Your Eyes</span>
             </h2>
           </div>
           {scene}
