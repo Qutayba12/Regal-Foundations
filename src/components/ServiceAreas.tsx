@@ -46,8 +46,15 @@ const markers = markerSpecs.map(([rho, deg]) => {
 function CoverageRadar() {
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[26rem]">
-      {/* soft glow */}
-      <div className="pointer-events-none absolute inset-[15%] rounded-full bg-gold/10 blur-3xl" />
+      {/* soft glow — radial gradient (no blur filter, so iOS never flashes
+          the filter's rectangular bounding box on load) */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 50%, rgba(201,162,75,0.13), transparent 52%)",
+        }}
+      />
 
       {/* emanating waves (inset-0 keeps them centred; the scale animation
           would otherwise override a transform-based centre offset) */}
