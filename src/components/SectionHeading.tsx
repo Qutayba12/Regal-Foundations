@@ -1,4 +1,5 @@
 import Reveal from "./Reveal";
+import DisplayHeading from "./DisplayHeading";
 
 export default function SectionHeading({
   eyebrow,
@@ -15,19 +16,23 @@ export default function SectionHeading({
 }) {
   return (
     <div className={center ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
-      <Reveal>
-        {eyebrow && (
+      {eyebrow && (
+        <Reveal>
           <span className={`eyebrow ${center ? "justify-center" : ""}`}>
             {eyebrow}
           </span>
-        )}
-        <h2 className="display-title text-4xl text-cream sm:text-5xl">
-          {title} {highlight && <span className="text-gold-gradient">{highlight}</span>}
-        </h2>
-        {subtitle && (
+        </Reveal>
+      )}
+      <DisplayHeading
+        title={title}
+        highlight={highlight}
+        className="display-title text-4xl text-cream sm:text-5xl"
+      />
+      {subtitle && (
+        <Reveal delay={0.1}>
           <p className="mt-4 text-base leading-relaxed text-silver">{subtitle}</p>
-        )}
-      </Reveal>
+        </Reveal>
+      )}
     </div>
   );
 }

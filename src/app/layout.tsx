@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import FloatingButtons from "@/components/FloatingButtons";
 import JsonLd from "@/components/JsonLd";
 import NoZoom from "@/components/NoZoom";
+import MetallicText from "@/components/MetallicText";
 import Preloader from "@/components/Preloader";
 import CustomCursor from "@/components/CustomCursor";
 import ScrollProgress from "@/components/ScrollProgress";
@@ -79,6 +80,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-ink text-cream">
         <JsonLd />
         <NoZoom />
+        <MetallicText />
         <Preloader />
         <ScrollProgress />
         <CustomCursor />

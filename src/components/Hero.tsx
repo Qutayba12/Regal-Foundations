@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import LogoStage from "./LogoStage";
 import SceneBackground from "./SceneBackground";
 import Magnetic from "./Magnetic";
+import BuildUpText from "./BuildUpText";
 import { site } from "@/lib/site";
 
 const tagParts = site.tagline.split("·").map((s) => s.trim());
@@ -28,15 +29,17 @@ export default function Hero() {
             Premium Builders · {site.contact.serviceArea}
           </motion.p>
 
-          <motion.h1
-            initial={reduce ? false : { opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.05 }}
-            className="display-title text-5xl text-cream drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-6xl lg:text-7xl"
-          >
-            Built to Stand
-            <span className="block text-gold-gradient">Forever.</span>
-          </motion.h1>
+          <h1 className="display-title text-5xl text-cream drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-6xl lg:text-7xl">
+            <BuildUpText text="Built to Stand" startDelay={0.15} />
+            <motion.span
+              className="block text-gold-gradient"
+              initial={reduce ? false : { opacity: 0, y: "35%" }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            >
+              Forever.
+            </motion.span>
+          </h1>
 
           <motion.p
             initial={reduce ? false : { opacity: 0, y: 22 }}

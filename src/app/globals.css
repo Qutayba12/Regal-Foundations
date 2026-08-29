@@ -53,7 +53,21 @@
 
   /* Gold gradient text */
   .text-gold-gradient {
-    @apply bg-gold-sheen bg-clip-text text-transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* A polished-metal gradient with a bright band that tracks the cursor
+       (via --mx, set globally). Defaults to a centred sheen with no JS. */
+    background-image: linear-gradient(
+      95deg,
+      #9c7a2e 0%,
+      #c9a24b calc(var(--mx, 50%) - 20%),
+      #e4c77e calc(var(--mx, 50%) - 7%),
+      #fff3cf var(--mx, 50%),
+      #e4c77e calc(var(--mx, 50%) + 7%),
+      #c9a24b calc(var(--mx, 50%) + 20%),
+      #9c7a2e 100%
+    );
   }
   .text-silver-gradient {
     @apply bg-silver-sheen bg-clip-text text-transparent;
